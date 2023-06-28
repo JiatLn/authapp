@@ -24,6 +24,10 @@
   @apply bg-white border border-gray-300 rounded-lg py-2 px-4 h-[40px] lg:h-[54px] w-full shadow lg:text-[18px] outline-none;
 }
 
+.input:focus + * {
+  @apply text-[#8c67de];
+}
+
 
 .gradation {
   position: relative;

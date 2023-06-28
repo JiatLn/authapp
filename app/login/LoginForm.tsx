@@ -1,11 +1,16 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './loginPage.module.css'
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import googleIcon from '@iconify/icons-flat-color-icons/google';
+import outlineAlternateEmail from '@iconify/icons-ic/outline-alternate-email';
+import interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity from '@iconify/icons-streamline/interface-id-thumb-mark-identification-password-touch-id-secure-fingerprint-finger-security';
 
 const LoginForm = () => {
+
+  const [showPsw, setShowPsw] = useState(false)
+
   return (
     <div className='mx-auto flex flex-col gap-2 lg:gap-6 lg:w-3/4 max-w-[460px]'>
       <h1 className='text-3xl text-center lg:text-left lg:text-5xl font-semibold'>Welcome back</h1>
@@ -15,11 +20,17 @@ const LoginForm = () => {
       <form className='flex flex-col gap-6 lg:gap-8 min-w-[360px]'>
         <div className='flex flex-col gap-2 lg:gap-3'>
           <label className={styles.label} htmlFor="email">Email</label>
-          <input className={styles.input} autoComplete={'new-password'} type="email" placeholder='Enter your email' />
+          <div className='relative'>
+            <input className={styles.input} autoComplete={'new-password'} type="email" placeholder='Enter your email' />
+            <Icon icon={outlineAlternateEmail} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db]' inline width={24} height={24} />
+          </div>
         </div>
         <div className='flex flex-col gap-3'>
           <label className={styles.label} htmlFor="password">Password</label>
-          <input className={styles.input} autoComplete={'new-password'} type="password" placeholder='Enter your password' />
+          <div className='relative'>
+            <input className={`${styles.input}`} autoComplete={'new-password'} type={`${showPsw ? 'text' : 'password'}`} placeholder='Enter your password' />
+            <Icon onClick={() => setShowPsw(!showPsw)} icon={interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db] hover:text-[#8c67de] cursor-pointer' inline width={24} height={24} />
+          </div>
         </div>
         <div className='flex justify-between items-center'>
           <div className='flex items-center gap-1 lg:gap-2'>
