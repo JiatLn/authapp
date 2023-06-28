@@ -1,0 +1,35 @@
+.logo {
+  padding-left: 30px;
+  user-select: none;
+  width: fit-content;
+}
+
+.logo::before {
+  content:'';
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background-color: #0f1826;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.gradation {
+  position: relative;
+  @apply flex items-center justify-center bg-[#613db7] rounded-full;
+}
+
+.gradation.gradationSm::after {
+  backdrop-filter: blur(14px);
+}
+
+.gradation::after {
+  width: 100vw;
+  height: 100vh;
+  content: '';
+  position: absolute;
+  top: 50%;
+  backdrop-filter: blur(28px);
+}
