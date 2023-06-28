@@ -14,10 +14,10 @@ const LoginForm = () => {
   return (
     <div className='mx-auto flex flex-col gap-2 lg:gap-6 lg:w-3/4 max-w-[460px]'>
       <h1 className='text-3xl text-center lg:text-left lg:text-5xl font-semibold'>Welcome back</h1>
-      <p className='text-sm text-center mb-6 lg:mb-0 lg:text-left text-[#6a6f79] lg:text-xl'>
+      <p className='text-sm text-center mb-4 lg:mb-0 lg:text-left text-[#6a6f79] lg:text-xl'>
         Welcome back! Please enter your details.
       </p>
-      <form className='flex flex-col gap-6 lg:gap-8 min-w-[360px]'>
+      <form className='flex flex-col gap-6 px-2 lg:gap-8 min-w-[360px]'>
         <div className='flex flex-col gap-2 lg:gap-3'>
           <label className={styles.label} htmlFor="email">Email</label>
           <div className='relative'>
