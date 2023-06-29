@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@iconify-icon/react": "^1.0.8",
+    "@iconify/icons-bx": "^1.2.6",
     "@iconify/icons-flat-color-icons": "^1.2.5",
     "@iconify/icons-ic": "^1.2.13",
     "@iconify/icons-streamline": "^1.2.2",
