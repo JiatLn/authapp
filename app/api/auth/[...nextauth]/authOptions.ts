@@ -16,4 +16,5 @@ export const authOptions: AuthOptions = {
     // ...add more providers here
   ],
   debug: process.env.NODE_ENV === 'development',
+  secret: process.env.GITHUB_SECRET
 }
