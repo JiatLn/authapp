@@ -7,9 +7,24 @@ import { Icon } from '@iconify/react';
 import googleIcon from '@iconify/icons-flat-color-icons/google';
 import outlineAlternateEmail from '@iconify/icons-ic/outline-alternate-email';
 import interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity from '@iconify/icons-streamline/interface-id-thumb-mark-identification-password-touch-id-secure-fingerprint-finger-security';
+import githubIcon from '@iconify/icons-uil/github';
+import { signIn } from 'next-auth/react'
 
 const LoginPage = () => {
   const [showPsw, setShowPsw] = useState(false)
+
+  async function handleSignInWithGoogle() {
+    signIn('google', {
+      callbackUrl: 'http://localhost:3000'
+    })
+  }
+
+  async function handleSignInWithGithub() {
+    signIn('github', {
+      callbackUrl: 'http://localhost:3000'
+    })
+  }
+
   return (
     <Layout>
       <div className='mx-auto flex flex-col gap-2 lg:gap-6 lg:w-3/4 max-w-[460px]'>
@@ -42,9 +57,13 @@ const LoginPage = () => {
           {/* buttons */}
           <div className='flex flex-col gap-4 lg:gap-6'>
             <button type='submit' className='bg-[#8c67de] w-full h-[48px] lg:h-[56px] rounded-lg shadow text-white text-lg hover:opacity-80'>Sign in</button>
-            <button className='w-full h-[48px] lg:h-[56px] rounded-lg shadow text-[#616673] border border-[#d7d8db] text-lg flex items-center gap-2 justify-center hover:opacity-80'>
+            <button type='button' onClick={handleSignInWithGoogle} className='w-full h-[48px] lg:h-[56px] rounded-lg shadow text-[#616673] border border-[#d7d8db] text-lg flex items-center gap-2 justify-center hover:opacity-80'>
               <Icon icon={googleIcon} inline width={28} height={28} />
               <span>Sign in with Google</span>
+            </button>
+            <button type='button' onClick={handleSignInWithGithub} className='w-full h-[48px] lg:h-[56px] rounded-lg shadow text-[#616673] border border-[#d7d8db] text-lg flex items-center gap-2 justify-center hover:opacity-80'>
+              <Icon icon={githubIcon} inline width={28} height={28} />
+              <span>Sign in with Github</span>
             </button>
           </div>
           {/* footer */}
