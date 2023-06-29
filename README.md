@@ -4,4 +4,10 @@ login page refered to: https://dribbble.com/shots/17564792-Log-in-page-Untitled-
 
 course link: https://www.youtube.com/watch?v=t0Fs0NO78X8
 
-online link: https://a-auth-app.netlify.app/login
+online link: https://a-auth-app.vercel.app
+
+
+### features
+
+- [x] support login with google & github
+- [ ] support login with email & password
