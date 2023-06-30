@@ -9,11 +9,40 @@ import { useFormik } from 'formik'
 import { RegisterForm } from '@/types/index.types'
 import InputWithIcon from '@/components/InputWithIcon'
 import { registerValidate } from '@/lib/validate';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import loadingIcon from '@iconify/icons-line-md/loading-twotone-loop';
+import { Icon } from '@iconify/react';
+import Toast from '@/components/Toast';
 
 const RegisterPage = () => {
 
-  function onSubmit(values: RegisterForm) {
-    alert(JSON.stringify(values, null, 2))
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  async function onSubmit(values: RegisterForm) {
+    try {
+      setLoading(true)
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      if (res.ok) {
+        console.log('data', data)
+        router.push('/')
+      } else {
+        setErrorMsg(data.message)
+      }
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const formik = useFormik<RegisterForm>({
@@ -29,6 +58,7 @@ const RegisterPage = () => {
 
   return (
     <Layout>
+      <Toast type='error' message={errorMsg} setMessage={setErrorMsg} />
       <div className='mx-auto py-4 flex flex-col gap-2 lg:gap-4 lg:w-3/4 max-w-[460px]'>
         <h1 className='text-3xl text-center font-semibold'>Register</h1>
         <p className='text-sm text-center mb-4 lg:mb-0 text-[#6a6f79] lg:text-xl'>
@@ -53,7 +83,10 @@ const RegisterPage = () => {
           </div>
           {/* buttons */}
           <div className='flex flex-col gap-4 lg:gap-6'>
-            <button type='submit' className={`${styles.button} bg-[#8c67de] text-white`}>Sign Up</button>
+            <button type='submit' className={`${styles.button} bg-[#8c67de] text-white ${loading ? 'cursor-wait' : ''}`}>
+              {loading && <Icon icon={loadingIcon} className='mr-2' inline width={18} height={18} />}
+              {loading ? 'Wait...' : 'Sign Up'}
+            </button>
           </div>
           {/* footer */}
           <p className='text-center flex items-center gap-2 self-center'>

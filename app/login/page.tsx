@@ -6,24 +6,52 @@ import { Icon } from '@iconify/react';
 import googleIcon from '@iconify/icons-flat-color-icons/google';
 import outlineAlternateEmail from '@iconify/icons-ic/outline-alternate-email';
 import passwordIcon from '@iconify/icons-streamline/interface-id-thumb-mark-identification-password-touch-id-secure-fingerprint-finger-security';
+import loadingIcon from '@iconify/icons-line-md/loading-twotone-loop';
 import githubIcon from '@iconify/icons-uil/github';
 import { signIn } from 'next-auth/react'
 import { useFormik } from 'formik'
 import { LoginForm } from '@/types/index.types'
 import { loginValidate } from '@/lib/validate'
 import InputWithIcon from '@/components/InputWithIcon'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react'
+import Toast from '@/components/Toast';
 
 
 const LoginPage = () => {
 
+  const router = useRouter()
+  const [errorMsg, setErrorMsg] = useState('')
+  const [loading, setLoading] = useState(false)
+
   async function handleSignInThird(provider: string) {
-    signIn(provider, {
-      callbackUrl: 'http://localhost:3000'
+    let res = await signIn(provider, {
+      callbackUrl: 'http://localhost:3000',
+      redirect: false
     })
+    console.log('res', res)
   }
 
-  function onSubmit(values: LoginForm) {
-    alert(JSON.stringify(values, null, 2))
+  async function onSubmit(values: LoginForm) {
+    try {
+      setLoading(true)
+      const res = await signIn('credentials', {
+        callbackUrl: '/',
+        email: values.email,
+        password: values.password,
+        redirect: false
+      })
+      if (res?.ok && res.url) {
+        router.push(res.url)
+        setErrorMsg('')
+      } else {
+        setErrorMsg(res?.error || 'Something error')
+      }
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const formik = useFormik<LoginForm>({
@@ -37,6 +65,7 @@ const LoginPage = () => {
 
   return (
     <Layout>
+      <Toast type='error' message={errorMsg} setMessage={setErrorMsg} />
       <div className='mx-auto flex flex-col gap-2 lg:gap-4 lg:w-3/4 max-w-[460px]'>
         <h1 className='text-3xl text-center lg:text-left lg:text-4xl font-semibold'>Welcome back</h1>
         <p className='text-sm text-center mb-4 lg:mb-0 lg:text-left text-[#6a6f79] lg:text-xl'>
@@ -63,7 +92,10 @@ const LoginPage = () => {
           </div>
           {/* buttons */}
           <div className='flex flex-col gap-4 lg:gap-6'>
-            <button type='submit' className={`${styles.button} bg-[#8c67de] text-white`}>Sign In</button>
+            <button type='submit' disabled={loading} className={`${styles.button} bg-[#8c67de] text-white ${loading ? 'cursor-wait' : ''}`}>
+              {loading && <Icon icon={loadingIcon} className='mr-2' inline width={18} height={18} />}
+              {loading ? 'Wait...' : 'Sign in'}
+            </button>
             <button type='button' onClick={() => handleSignInThird('google')} className={`${styles.button} text-[#616673] border border-[#d7d8db]`}>
               <Icon icon={googleIcon} inline width={28} height={28} />
               <span>Sign in with Google</span>

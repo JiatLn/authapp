@@ -16,3 +16,6 @@ online link: https://a-auth-app.vercel.app
 ### tech stack
 
 - [formik](https://formik.org)
+- [nextauth](https://next-auth.js.org)
+- [mongoose](https://mongoosejs.com/docs/guide.html)
+- [headlessui](https://headlessui.dev)
