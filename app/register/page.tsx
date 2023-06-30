@@ -2,63 +2,58 @@
 import Layout from '@/components/Layout'
 import Link from 'next/link'
 import styles from './registerPage.module.css'
-import React, { useState } from 'react'
 import userIcon from '@iconify/icons-bx/user';
 import outlineAlternateEmail from '@iconify/icons-ic/outline-alternate-email';
-import interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity from '@iconify/icons-streamline/interface-id-thumb-mark-identification-password-touch-id-secure-fingerprint-finger-security';
-import { Icon } from '@iconify/react'
+import passwordIcon from '@iconify/icons-streamline/interface-id-thumb-mark-identification-password-touch-id-secure-fingerprint-finger-security';
+import { useFormik } from 'formik'
+import { RegisterForm } from '@/types/index.types'
+import InputWithIcon from '@/components/InputWithIcon'
+import { registerValidate } from '@/lib/validate';
 
 const RegisterPage = () => {
-  const [showPsw, setShowPsw] = useState({
-    psw: false,
-    cPsw: false
+
+  function onSubmit(values: RegisterForm) {
+    alert(JSON.stringify(values, null, 2))
+  }
+
+  const formik = useFormik<RegisterForm>({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    },
+    onSubmit,
+    validate: registerValidate,
   })
 
   return (
     <Layout>
-      <div className='mx-auto py-4 flex flex-col gap-2 lg:gap-6 lg:w-3/4 max-w-[460px]'>
-        <h1 className='text-3xl text-center lg:text-4xl font-semibold'>Sign up</h1>
+      <div className='mx-auto py-4 flex flex-col gap-2 lg:gap-4 lg:w-3/4 max-w-[460px]'>
+        <h1 className='text-3xl text-center font-semibold'>Register</h1>
         <p className='text-sm text-center mb-4 lg:mb-0 text-[#6a6f79] lg:text-xl'>
           You are welcome! Please enter your details.
         </p>
-        <form className='flex flex-col gap-6 px-2 lg:gap-8 min-w-[360px]'>
+        <form className='flex flex-col gap-5 px-2 min-w-[360px]' onSubmit={formik.handleSubmit}>
           <div className='flex flex-col gap-2'>
             <label className={styles.label} htmlFor="username">Username</label>
-            <div className='relative'>
-              <input className={styles.input} type="text" placeholder='Enter your name' />
-              <Icon icon={userIcon} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db]' inline width={24} height={24} />
-            </div>
+            <InputWithIcon icon={userIcon} formik={formik} placeholder='Enter your name' isError={formik.errors.username && formik.touched.username} name='username' />
           </div>
           <div className='flex flex-col gap-2'>
             <label className={styles.label} htmlFor="email">Email</label>
-            <div className='relative'>
-              <input className={styles.input} type="email" placeholder='Enter your email' />
-              <Icon icon={outlineAlternateEmail} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db]' inline width={24} height={24} />
-            </div>
+            <InputWithIcon icon={outlineAlternateEmail} formik={formik} placeholder='Enter your email' isError={formik.errors.email && formik.touched.email} name='email' type='email' />
           </div>
           <div className='flex flex-col gap-2'>
             <label className={styles.label} htmlFor="password">Password</label>
-            <div className='relative'>
-              <input className={`${styles.input}`} type={`${showPsw.psw ? 'text' : 'password'}`} placeholder='Enter your password' />
-              <Icon onClick={() => setShowPsw({
-                ...showPsw,
-                psw: !showPsw.psw
-              })} icon={interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db] hover:text-[#8c67de] cursor-pointer' inline width={24} height={24} />
-            </div>
+            <InputWithIcon icon={passwordIcon} formik={formik} placeholder='Enter your password' isError={formik.errors.password && formik.touched.password} name='password' type='password' />
           </div>
           <div className='flex flex-col gap-2'>
             <label className={styles.label} htmlFor="cPassword">Comfirm Password</label>
-            <div className='relative'>
-              <input className={`${styles.input}`} type={`${showPsw.cPsw ? 'text' : 'password'}`} placeholder='Enter your password again' />
-              <Icon onClick={() => setShowPsw({
-                ...showPsw,
-                cPsw: !showPsw.cPsw
-              })} icon={interfaceIdThumbMarkIdentificationPasswordTouchIdSecureFingerprintFingerSecurity} className='absolute right-4 top-[50%] translate-y-[-50%] text-[#d7d8db] hover:text-[#8c67de] cursor-pointer' inline width={24} height={24} />
-            </div>
+            <InputWithIcon icon={passwordIcon} formik={formik} placeholder='Enter your password again' isError={formik.errors.confirmPassword && formik.touched.confirmPassword} name='confirmPassword' type='password' />
           </div>
           {/* buttons */}
           <div className='flex flex-col gap-4 lg:gap-6'>
-            <button type='submit' className='bg-[#8c67de] w-full h-[48px] lg:h-[56px] rounded-lg shadow text-white text-lg hover:opacity-80'>Sign up</button>
+            <button type='submit' className={`${styles.button} bg-[#8c67de] text-white`}>Sign Up</button>
           </div>
           {/* footer */}
           <p className='text-center flex items-center gap-2 self-center'>

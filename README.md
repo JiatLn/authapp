@@ -11,3 +11,8 @@ online link: https://a-auth-app.vercel.app
 
 - [x] support login with google & github
 - [ ] support login with email & password
+
+
+### tech stack
+
+- [formik](https://formik.org)

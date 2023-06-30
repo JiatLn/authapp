@@ -1,11 +1,7 @@
 .label {
-  @apply text-[#616673] text-sm md:text-lg lg:text-xl font-semibold;
+  @apply text-[#616673] text-sm md:text-lg font-semibold;
 }
 
-.input {
-  @apply bg-white border border-gray-300 rounded-lg py-2 px-4 h-[40px] lg:h-[54px] w-full shadow lg:text-[18px] outline-none;
-}
-
-.input:focus + * {
-  @apply text-[#8c67de];
+.button {
+  @apply w-full h-[48px] lg:h-[50px] rounded-lg shadow text-lg flex items-center gap-2 justify-center hover:opacity-80;
 }
